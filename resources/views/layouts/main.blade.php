@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>@yield('page_title', 'InventoryAPP')</title>
+    <title>@yield('page_title', 'mcAPP')</title>
 
     @include('partials.styles')
     @yield('additional_styles', '')

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -75,7 +76,27 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        //
+//        dd($request);
+
+//        $request->validate([
+//            'ime' => 'required|min:3',
+//            'prezime' => 'required|min:3',
+//            'username' => 'required|min:3|unique:users,username,' . $user->id,
+//            'password' => 'confirmed|min:8'
+//        ]);
+
+//        dd($request);
+        if (!$request->filled('password')){
+            $password = $user->password;
+        } else {
+            $password = Hash::make($request->password);
+        }
+        $user->update([
+            'ime' => $request->ime,
+            'prezime' => $request->prezime,
+            'username' => $request->username,
+            'password' => $password
+        ]);
     }
 
     /**
@@ -87,5 +108,9 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         //
+    }
+
+    public function get_user_info(User $user){
+        return $user;
     }
 }

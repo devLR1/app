@@ -16,8 +16,9 @@
                     <div class="card-tools">
                         <ul class="nav nav-pills ml-auto">
                             <li class="nav-item">
-                                <a class="btn btn-sm btn-flat btn-primary" href="/users/create">Add new employee</a>
-                            </li>
+                                <button type="button" onclick="vratiUser('new')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Novi nalog
+                                </button>                            </li>
                         </ul>
                     </div>
                 </div><!-- /.card-header -->
@@ -73,8 +74,8 @@
                         </tbody>
                     </table>
 
-                    <button type="button" onclick="vratiUser({{$user->id}})" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        Open Modal
+                    <button type="button" onclick="vratiUser({{$user->id}}, 'edit')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                        Edit
                     </button>
 
                     <!-- Modal -->
@@ -158,7 +159,19 @@
 <script>
 
     function vratiUser(id){
-        $.ajax({
+        var forma = document.getElementById('pop_up_forma')
+        var ime = document.getElementById('ime')
+        var prezime = document.getElementById('prezime')
+        var username = document.getElementById('username')
+
+        if(id == 'new'){
+            forma.value = ''
+            ime.value = ''
+            prezime.value = ''
+            username.value = ''
+        } else {
+
+            $.ajax({
             url: 'http://127.0.0.1:8000/get-user-info/' + id,
             type: 'GET',
             success: function(response) {
@@ -179,6 +192,9 @@
                 console.error(error);
             }
         });
+        }
+
+        
     }
 
 </script>

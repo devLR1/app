@@ -55,7 +55,7 @@
                                 @if(Auth::user()->is_admin)
                                 <td>
                                     <button type="button" onclick="vratiUser({{$user->id}})" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                        Open Modal
+                                        Edit
                                     </button>
                                 </td>
                                 <td>
@@ -74,16 +74,14 @@
                         </tbody>
                     </table>
 
-                    <button type="button" onclick="vratiUser({{$user->id}}, 'edit')" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                        Edit
-                    </button>
+        
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                                <div class="modal-header p-0">
+                                    <h5 class="modal-title" id="exampleModalLabel"></h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -121,13 +119,13 @@
                                             <input type="text" name="password_confirmation" class="form-control" id="exampleInputPassword1">
                                         </div>
 
-                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                    </form>
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>                                    </form>
                                 </div>
-                                <div class="modal-footer">
+                                {{-- <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                                     <button type="button" class="btn btn-primary">Save changes</button>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
@@ -163,12 +161,41 @@
         var ime = document.getElementById('ime')
         var prezime = document.getElementById('prezime')
         var username = document.getElementById('username')
+        const inputMetod = forma.querySelector('input[name="_method"]');            
+        inputMetod.value = 'put'
 
         if(id == 'new'){
             forma.value = ''
             ime.value = ''
             prezime.value = ''
             username.value = ''
+            console.log(forma.method)
+            const inputMetod = forma.querySelector('input[name="_method"]');            
+            inputMetod.value = 'post'
+            forma.method = 'POST'
+            forma.action = '/users'
+            var dugme = forma.querySelector('button[type="submit"]')
+            dugme.addEventListener('click', function(e){
+                e.preventDefault()
+                console.log('klik')
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/validate_user_form/',
+                    type: 'POST',
+                    success: function(response) {
+
+                   console.log(response)
+
+
+            },
+            error: function(xhr, status, error) {
+
+                console.error(error);
+            }
+        });
+            })
+
+            // console.log(forma.method)
+       
         } else {
 
             $.ajax({

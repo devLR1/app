@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
             'prezime' => ' ',
             'username' => 'admin',
             'password' => Hash::make('luka1234'),
+            'razur' => 1,
             'is_admin' => true
         ]);
     }

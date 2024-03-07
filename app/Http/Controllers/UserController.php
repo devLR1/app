@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -78,14 +80,14 @@ class UserController extends Controller
     {
 //        dd($request);
 
-//        $request->validate([
-//            'ime' => 'required|min:3',
-//            'prezime' => 'required|min:3',
-//            'username' => 'required|min:3|unique:users,username,' . $user->id,
-//            'password' => 'confirmed|min:8'
-//        ]);
+       $request->validate([
+           'ime' => 'required|min:3',
+           'prezime' => 'required|min:3',
+           'username' => 'required|min:3|unique:users,username,' . $user->id,
+           'password' => 'confirmed|min:8'
+       ]);
 
-//        dd($request);
+    //    dd($request);
         if (!$request->filled('password')){
             $password = $user->password;
         } else {
@@ -95,6 +97,7 @@ class UserController extends Controller
             'ime' => $request->ime,
             'prezime' => $request->prezime,
             'username' => $request->username,
+            'razur' => Auth::user()->id,
             'password' => $password
         ]);
     }
@@ -112,5 +115,19 @@ class UserController extends Controller
 
     public function get_user_info(User $user){
         return $user;
+    }
+
+    public function validator(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'ime' => 'required|min:3|string'
+        ]);
+    
+        if ($validator->fails()) {
+            return response()->json(['errors' => $validator->errors()], 422);
+        } else {
+            return response()->json(['message' => 'Podaci su uspješno validirani.'], 200);
+        }
+
     }
 }

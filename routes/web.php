@@ -23,3 +23,4 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::resource('/users', UserController::class)->middleware('auth');
 Route::get('/get-user-info/{user}', [App\Http\Controllers\UserController::class, 'get_user_info']);
+Route::post('/validate_user_form', [App\Http\Controllers\UserController::class, 'validator']);

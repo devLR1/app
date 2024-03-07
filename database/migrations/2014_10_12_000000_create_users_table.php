@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->boolean('is_admin')->default(0);
             $table->rememberToken();
+            $table->integer('razur');
             $table->timestamps();
         });
     }

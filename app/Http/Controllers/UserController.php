@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
 
 class UserController extends Controller
 {
@@ -44,7 +44,14 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $razur = Auth::user()->id;
+        $user = User::create([
+            'ime' => $request->ime,
+            'prezime' => $request->prezime,
+            'username' => $request->username,
+            'password' => Hash::make($request->password),
+            'razur' => $razur]);
+        return redirect('/users');
     }
 
     /**
@@ -117,16 +124,44 @@ class UserController extends Controller
         return $user;
     }
 
-    public function validator(Request $request){
+    public function validateForm(Request $request){
 
-        $validator = Validator::make($request->all(), [
-            'ime' => 'required|min:3|string'
-        ]);
-    
-        if ($validator->fails()) {
-            return response()->json(['errors' => $validator->errors()], 422);
+//        return $request;
+        if($request->filled('password') || $request->formTip == 'create'){
+            $validator = Validator::make($request->all(), [
+                'ime' => 'required|min:3|string',
+                'prezime' => 'required|min:3|string',
+                'username' => 'required|unique:users|min:3',
+                'password' => 'required|min:8|confirmed']);
         } else {
-            return response()->json(['message' => 'Podaci su uspješno validirani.'], 200);
+            $validator = Validator::make($request->all(), [
+                'ime' => 'required|min:3|string',
+                'prezime' => 'required|min:3|string',
+                'username' => 'required|unique:users|min:3',
+
+
+            ]);
+
+        }
+
+        $customMessages = [
+            'ime.required' => 'Polje ime je obavezno',
+            'ime.min' => 'Polje ime mora sadržavati najmanje :min karaktera',
+            'username.unique' => 'Vec postoji nalog sa tim username-om',
+            'password.confirmed' => 'Lozinke se ne poklapaju'
+            // Dodajte druge prilagođene poruke o grešci za druga pravila validacije ako je potrebno
+        ];
+
+        $validator->setCustomMessages($customMessages);
+
+
+
+        if ($validator->fails()) {
+            $errors = $validator->errors()->toArray();
+//            return response()->json(['errors' => $errors]);
+            return $request;
+        } else {
+            return 'success';
         }
 
     }

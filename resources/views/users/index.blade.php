@@ -74,7 +74,7 @@
                         </tbody>
                     </table>
 
-        
+
 
                     <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -161,41 +161,59 @@
         var ime = document.getElementById('ime')
         var prezime = document.getElementById('prezime')
         var username = document.getElementById('username')
-        const inputMetod = forma.querySelector('input[name="_method"]');            
+        const inputMetod = forma.querySelector('input[name="_method"]');
         inputMetod.value = 'put'
+        var dugme = forma.querySelector('button[type="submit"]')
+
 
         if(id == 'new'){
             forma.value = ''
             ime.value = ''
             prezime.value = ''
             username.value = ''
-            console.log(forma.method)
-            const inputMetod = forma.querySelector('input[name="_method"]');            
+            // console.log(forma.method)
+            const inputMetod = forma.querySelector('input[name="_method"]');
             inputMetod.value = 'post'
             forma.method = 'POST'
             forma.action = '/users'
-            var dugme = forma.querySelector('button[type="submit"]')
             dugme.addEventListener('click', function(e){
                 e.preventDefault()
-                console.log('klik')
+
+                var formData = new FormData($('#pop_up_forma')[0]); // Zamijenite '#yourForm' s id-em vaše forme
                 $.ajax({
                     url: 'http://127.0.0.1:8000/validate_user_form/',
                     type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
                     success: function(response) {
+                        if(response == 'success'){
+                            forma.submit()
+                        } else {
+                            console.log(response)
+                            $('.error').remove();
+                            $.each(response.errors, function(key, value) {
+                                // Pronađite polje u HTML-u na osnovu ključa
+                                console.log(key)
+                                var field = $('[name="' + key + '"]');
+                                field.next('.error').remove();
+                                // Prikazite poruku o grešci pored polja
+                                field.after('<span class="error">' + value[0] + '</span>');
+                            });
+                        }
 
-                   console.log(response)
+                        console.log(response.errors);
 
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
 
-            },
-            error: function(xhr, status, error) {
-
-                console.error(error);
-            }
-        });
             })
 
             // console.log(forma.method)
-       
+
         } else {
 
             $.ajax({
@@ -213,15 +231,53 @@
                 var username = document.getElementById('username')
                 username.value = response.username
 
+
+
             },
             error: function(xhr, status, error) {
 
                 console.error(error);
             }
         });
+
+            var formData = new FormData($('#pop_up_forma')[0]);
+            formData.append('_token', '{{ csrf_token() }}')
+
+            dugme.addEventListener('click', function(e){
+                e.preventDefault()
+                $.ajax({
+                    url: 'http://127.0.0.1:8000/validate_user_form/',
+                    type: 'POST',
+                    data: formData,
+                    contentType: false,
+                    processData: false,
+                    success: function(response) {
+                        if(response.success) {
+                            forma.submit(); // Ako je uspjeh, pošalji formu
+                        } else {
+                            console.log(response);
+                            $('.error').remove(); // Ukloni sve postojeće poruke o grešci
+
+                            // Prikazi poruke o grešci za svako polje
+                            $.each(response.errors, function(key, value) {
+                                console.log(key);
+                                var field = $('[name="' + key + '"]');
+                                field.next('.error').remove(); // Ukloni poruku o grešci ako već postoji
+                                field.after('<span class="error">' + value[0] + '</span>'); // Dodaj novu poruku o grešci
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+
+            })
+
+
         }
 
-        
+
     }
 
 </script>

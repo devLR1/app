@@ -92,6 +92,7 @@
                                         @csrf
                                         @method('PUT')
                                         <div class="form-group">
+                                            <input type="hidden" name="userID" id="userID">
                                             <label for="exampleInputEmail1">Ime</label>
                                             <input type="text" class="form-control" id="ime" name="ime" aria-describedby="emailHelp">
                                         </div>
@@ -111,12 +112,12 @@
                                         @enderror
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Password</label>
-                                            <input type="text" name="password" class="form-control" id="exampleInputPassword1">
+                                            <input type="text" name="password" class="form-control" id="password">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="exampleInputPassword1">Potvrda password-a</label>
-                                            <input type="text" name="password_confirmation" class="form-control" id="exampleInputPassword1">
+                                            <input type="text" name="password_confirmation" class="form-control" id="password_confirmation">
                                         </div>
 
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -157,10 +158,12 @@
 <script>
 
     function vratiUser(id){
+        $('.error').remove();
         var forma = document.getElementById('pop_up_forma')
         var ime = document.getElementById('ime')
         var prezime = document.getElementById('prezime')
         var username = document.getElementById('username')
+        var userID = document.getElementById('userID')
         const inputMetod = forma.querySelector('input[name="_method"]');
         inputMetod.value = 'put'
         var dugme = forma.querySelector('button[type="submit"]')
@@ -176,6 +179,18 @@
             inputMetod.value = 'post'
             forma.method = 'POST'
             forma.action = '/users'
+            var input = document.createElement("input");
+
+            // Postavljanje atributa tipa na "hidden"
+            input.setAttribute("type", "hidden");
+
+            // Postavljanje atributa imena na "formTip"
+            input.setAttribute("name", "formTip");
+
+            // Postavljanje vrijednosti na "create"
+            input.setAttribute("value", "create");
+            forma.appendChild(input)
+
             dugme.addEventListener('click', function(e){
                 e.preventDefault()
 
@@ -226,9 +241,12 @@
                 forma.setAttribute('action', '/users/' + id)
                 var ime = document.getElementById('ime')
                 ime.value = response.ime;
+                userID.value = response.id;
                 var prezime = document.getElementById('prezime')
                 prezime.value = response.prezime
                 var username = document.getElementById('username')
+                var password = document.getElementById('password')
+                var password_confirmation = document.getElementById('password_confirmation')
                 username.value = response.username
 
 
@@ -245,16 +263,30 @@
 
             dugme.addEventListener('click', function(e){
                 e.preventDefault()
+                var ime = document.getElementById('ime').value;
+                var prezime = document.getElementById('prezime').value;
+                var username = document.getElementById('username').value;
+
+                // Kreiranje objekta s podacima koji se šalju
+                var dataToSend = {
+                    ime: ime,
+                    prezime: prezime,
+                    username: username,
+                };
+                console.log('datatosend')
+                console.log(dataToSend)
                 $.ajax({
-                    url: 'http://127.0.0.1:8000/validate_user_form/',
-                    type: 'POST',
-                    data: formData,
+                    url: 'http://127.0.0.1:8000/validate_user_form/?ime='+ime+'&prezime='+prezime+'&username='+username+'&userID='+userID.value+'&password='+password.value+'&password_confirmation='+password_confirmation.value,
+                    type: 'get',
+                    // data: dataToSend,
                     contentType: false,
                     processData: false,
                     success: function(response) {
-                        if(response.success) {
+                        if(response == 'success') {
+                            console.log('odje success')
                             forma.submit(); // Ako je uspjeh, pošalji formu
                         } else {
+                            console.log('response')
                             console.log(response);
                             $('.error').remove(); // Ukloni sve postojeće poruke o grešci
 

@@ -87,14 +87,13 @@ class UserController extends Controller
     {
 //        dd($request);
 
-       $request->validate([
-           'ime' => 'required|min:3',
-           'prezime' => 'required|min:3',
-           'username' => 'required|min:3|unique:users,username,' . $user->id,
-           'password' => 'confirmed|min:8'
-       ]);
+    //    $request->validate([
+    //        'ime' => 'required|min:3',
+    //        'prezime' => 'required|min:3',
+    //        'username' => 'required|min:3|unique:users,username,' . $user->id,
+    //        'password' => 'confirmed|min:8'
+    //    ]);
 
-    //    dd($request);
         if (!$request->filled('password')){
             $password = $user->password;
         } else {
@@ -107,6 +106,7 @@ class UserController extends Controller
             'razur' => Auth::user()->id,
             'password' => $password
         ]);
+        return redirect('/users');
     }
 
     /**
@@ -126,18 +126,18 @@ class UserController extends Controller
 
     public function validateForm(Request $request){
 
-//        return $request;
+    //    return $request;
         if($request->filled('password') || $request->formTip == 'create'){
             $validator = Validator::make($request->all(), [
                 'ime' => 'required|min:3|string',
                 'prezime' => 'required|min:3|string',
-                'username' => 'required|unique:users|min:3',
+                'username' => 'required|min:3|unique:users,username,' .$request->userID,
                 'password' => 'required|min:8|confirmed']);
         } else {
             $validator = Validator::make($request->all(), [
                 'ime' => 'required|min:3|string',
                 'prezime' => 'required|min:3|string',
-                'username' => 'required|unique:users|min:3',
+                'username' => 'required|min:3|unique:users,username,' .$request->userID,
 
 
             ]);
@@ -158,8 +158,8 @@ class UserController extends Controller
 
         if ($validator->fails()) {
             $errors = $validator->errors()->toArray();
-//            return response()->json(['errors' => $errors]);
-            return $request;
+           return response()->json(['errors' => $errors]);
+            // return $request;
         } else {
             return 'success';
         }

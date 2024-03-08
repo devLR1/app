@@ -25,4 +25,5 @@ Route::resource('/users', UserController::class)->middleware('auth');
 Route::get('/get-user-info/{user}', [App\Http\Controllers\UserController::class, 'get_user_info']);
 //Route::post('/validate_user_form', [App\Http\Controllers\UserController::class, 'validateForm']);
 Route::post('/validate_user_form', [UserController::class, 'validateForm'])->middleware('web');
+Route::get('/validate_user_form', [UserController::class, 'validateForm'])->middleware('web');
 Route::put('/validate_user_form', [UserController::class, 'validateForm'])->middleware('web');

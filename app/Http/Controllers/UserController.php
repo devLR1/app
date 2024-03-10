@@ -15,10 +15,20 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $users = User::all();
-        $content_header = "Employees list";
+        $users = User::query()
+            ->when($request->filled('searchIme'), function ($query) use($request){
+                $query->where('ime', 'like', '%'. $request->searchIme . '%');
+            })
+            ->when($request->filled('searchPrezime'), function($query) use($request){
+                $query->where('prezime', 'like', '%' .$request->searchPrezime . '%');
+            })
+            ->when($request->filled('searchUsername'), function($query) use($request){
+                $query->where('username', 'like', '%' .$request->searchUsername . '%');
+            })
+            ->paginate(10);
+        $content_header = "Lista zaposlenih";
         $breadcrumbs = [
             [ 'name' => 'Home', 'link' => '/' ],
             [ 'name' => 'Employees list', 'link' => '/users' ],

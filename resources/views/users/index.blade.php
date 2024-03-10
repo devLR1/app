@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('page_title', 'Employees list')
+@section('page_title', 'Lista zaposlenih')
 
 @section('content')
 
@@ -11,7 +11,7 @@
                 <div class="card-header">
                     <h3 class="card-title">
                         <i class="fas fa-users mr-1"></i>
-                        Employees
+                        Zaposleni
                     </h3>
                     <div class="card-tools">
                         <ul class="nav nav-pills ml-auto">
@@ -23,6 +23,12 @@
                     </div>
                 </div><!-- /.card-header -->
                 <div class="card-body table-responsive">
+                    <form method="get" class="form-inline" action="/users">
+                        <input value="{{request('searchIme')}}" class="form-control p-2 dark-mode m-2" type="text" name="searchIme" placeholder="pretrazi ime">
+                        <input value="{{request('searchPrezime')}}" class="form-control dark-mode m-2" type="text" name="searchPrezime" placeholder="pretrazi prezime">
+                        <input value="{{request('searchUsername')}}" class="form-control dark-mode m-2" type="text" name="searchUsername" placeholder="pretrazi username">
+                        <button class="btn btn-info p-2 btn ">Pretrazi</button>
+                    </form>
 
                     <table class="table table-hover table-striped">
                         <thead>
@@ -73,6 +79,8 @@
                         @endforeach
                         </tbody>
                     </table>
+
+                    {{$users->appends(request()->input())->links()}}
 
 
 

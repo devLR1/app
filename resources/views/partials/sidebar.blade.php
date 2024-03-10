@@ -66,11 +66,20 @@
                     </ul>
                 </li>
                 <li class="nav-item">
+                    <a href="/targets" class="nav-link">
+                        <i class="nav-icon fas fa-users"></i>
+                        <p>
+                            Targeti
+{{--                            <span class="right badge badge-danger">New</span>--}}
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="/users" class="nav-link">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Zaposleni
-{{--                            <span class="right badge badge-danger">New</span>--}}
+                            {{--                            <span class="right badge badge-danger">New</span>--}}
                         </p>
                     </a>
                 </li>

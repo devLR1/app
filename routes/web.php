@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\TargetController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,3 +28,4 @@ Route::get('/get-user-info/{user}', [App\Http\Controllers\UserController::class,
 Route::post('/validate_user_form', [UserController::class, 'validateForm'])->middleware('web');
 Route::get('/validate_user_form', [UserController::class, 'validateForm'])->middleware('web');
 Route::put('/validate_user_form', [UserController::class, 'validateForm'])->middleware('web');
+Route::resource('/targets', TargetController::class)->middleware('auth');

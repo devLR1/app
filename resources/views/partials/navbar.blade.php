@@ -37,12 +37,16 @@
             </a>
         </li>
 
+
         <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                 {{ Auth::user()->ime . ' ' . Auth::user()->prezime }}
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="/passwordChange/resetPassword">
+                    {{ __('Promjena lozinke') }}
+                </a>
                 <a class="dropdown-item" href="{{ route('logout') }}"
                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
@@ -53,6 +57,7 @@
                     @csrf
                 </form>
             </div>
+
         </li>
 
     </ul>

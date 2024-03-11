@@ -41,14 +41,15 @@ class ResetPasswordController extends Controller
 
         $user = Auth::user();
         $request->validate([
-            'old_password' => 'required|min:8',
-            'new_password' => 'required|min:8|confirmed'
-        ]);
+            'old_password' => 'required|min:8']);
 
-
-        if (Hash::make($request->old_password)!= $user->password) {
+        if (!Hash::check($request->old_password, $user->password)) {
             return redirect()->back()->withErrors(['old_password' => 'Neispravna stara lozinka']);
         }
+
+        $request->validate([
+           'new_password' => 'required|min:8|confirmed'
+        ]);
 
         $user->password = Hash::make($request->new_password);
         $user->save();

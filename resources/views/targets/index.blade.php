@@ -16,9 +16,10 @@
             <div class="card-tools">
                 <ul class="nav nav-pills ml-auto">
                     <li class="nav-item">
-                        <button type="button" class="btn btn-primary">
+                        <a href="/targets/create" class="btn btn-primary">
                             Novi unos
-                        </button>                            </li>
+                        </a>
+                    </li>
                 </ul>
             </div>
         </div><!-- /.card-header -->

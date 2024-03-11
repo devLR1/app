@@ -15,15 +15,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::factory(50)->create();
-        \App\Models\Target::factory(50)->create();
-        User::create([
-            'ime' => 'admin',
-            'prezime' => ' ',
-            'username' => 'admin',
-            'password' => Hash::make('luka1234'),
-            'razur' => 1,
-            'is_admin' => true
-        ]);
+    //     \App\Models\User::factory(50)->create();
+    //     \App\Models\Target::factory(50)->create();
+    //     User::create([
+    //         'ime' => 'admin',
+    //         'prezime' => ' ',
+    //         'username' => 'admin',
+    //         'password' => Hash::make('luka1234'),
+    //         'razur' => 1,
+    //         'is_admin' => true
+    //     ]);
     }
 }

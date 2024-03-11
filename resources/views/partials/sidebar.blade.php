@@ -36,7 +36,7 @@
                 <!-- Add icons to the links using the .nav-icon class
                      with font-awesome or any other icon font library -->
                 <li class="nav-header">Opcije menija</li>
-                <li class="nav-item menu-open">
+                {{-- <li class="nav-item menu-open">
                     <a href="#" class="nav-link active">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
@@ -64,9 +64,11 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
                 <li class="nav-item">
-                    <a href="/targets" class="nav-link">
+                    <a href="/targets" class="nav-link  @if (Illuminate\Support\Str::contains(Request::route()->getName(), 'targets'))
+                        active
+                    @endif">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Targeti
@@ -75,7 +77,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="/users" class="nav-link">
+                    <a href="/users" class="nav-link  @if (Illuminate\Support\Str::contains(Request::route()->getName(), 'users'))
+                        active
+                    @endif">
                         <i class="nav-icon fas fa-users"></i>
                         <p>
                             Zaposleni

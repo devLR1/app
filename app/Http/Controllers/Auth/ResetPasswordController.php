@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\ResetsPasswords;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
+
 
 class ResetPasswordController extends Controller
 {
@@ -27,4 +32,28 @@ class ResetPasswordController extends Controller
      * @var string
      */
     protected $redirectTo = RouteServiceProvider::HOME;
+
+    public function resetView(){
+        return view('auth.passwords.resetPassword');
+    }
+
+    public function resetPassword(Request $request){
+
+        $user = Auth::user();
+        $request->validate([
+            'old_password' => 'required|min:8',
+            'new_password' => 'required|min:8|confirmed'
+        ]);
+
+
+        if (Hash::make($request->old_password)!= $user->password) {
+            return redirect()->back()->withErrors(['old_password' => 'Neispravna stara lozinka']);
+        }
+
+        $user->password = Hash::make($request->new_password);
+        $user->save();
+        return redirect('/targets');
+
+    }
+
 }

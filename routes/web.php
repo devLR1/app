@@ -3,6 +3,7 @@
 use App\Http\Controllers\TargetController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\ResetPasswordController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,5 @@ Route::post('/validate_user_form', [UserController::class, 'validateForm'])->mid
 Route::get('/validate_user_form', [UserController::class, 'validateForm'])->middleware('web');
 Route::put('/validate_user_form', [UserController::class, 'validateForm'])->middleware('web');
 Route::resource('/targets', TargetController::class)->middleware('auth');
+Route::get('/passwordChange/resetPassword', [ResetPasswordController::class, 'resetView']);
+Route::post('/passwordChange/resetPassword/test', [ResetPasswordController::class, 'resetPassword']);

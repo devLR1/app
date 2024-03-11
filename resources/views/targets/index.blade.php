@@ -1,6 +1,6 @@
 @extends('layouts.main')
 
-@section('page_title', 'Lista zaposlenih')
+@section('page_title', 'Lista targeta')
 
 @section('content')
 
@@ -11,13 +11,13 @@
         <div class="card-header">
             <h3 class="card-title">
                 <i class="fas fa-users mr-1"></i>
-                Zaposleni
+                Targeti
             </h3>
             <div class="card-tools">
                 <ul class="nav nav-pills ml-auto">
                     <li class="nav-item">
                         <button type="button" class="btn btn-primary">
-                            Novi nalog
+                            Novi unos
                         </button>                            </li>
                 </ul>
             </div>

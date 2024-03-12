@@ -38,17 +38,23 @@ class TargetController extends Controller
      */
     public function store(TargetRequest $request)
     {
+        $image_path = null;
 
-        $image_path = $request->file('slika')->store('profile-image');
-        return $image_path;
+        if ($request->filled('slika')){
+            $image_path = $request->file('slika')->store('profile-image');
+            $image_path = str_replace('profile-image', '',$image_path);
+        }
+
+
 
         $target = Target::create([
             'ime' => $request->ime,
             'prezime' => $request->prezime,
             'sifra_objekta' => $request->sifra_objekta,
+            'datum_rodjenja' => $request->datum_rodjenja,
             'adresa' => $request->adresa,
             'mjesto_stanovanja' => $request->mjesto_stanovanja,
-            'ime' => $request->ime,
+            'slika' => $image_path,
         ]);
     }
 
@@ -71,7 +77,7 @@ class TargetController extends Controller
      */
     public function edit(Target $target)
     {
-        //
+        return view('targets.edit');
     }
 
     /**

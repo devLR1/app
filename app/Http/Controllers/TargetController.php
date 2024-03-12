@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Target;
 use Illuminate\Http\Request;
+use App\Http\Requests\TargetRequest;
+use App\Models\Target;
+use App\Http\Requests;
 
 class TargetController extends Controller
 {
@@ -14,7 +16,7 @@ class TargetController extends Controller
      */
     public function index()
     {
-        $targets = Target::all();
+        $targets = Target::query()->paginate(10);
         return view('targets.index', compact('targets'));
     }
 
@@ -34,9 +36,20 @@ class TargetController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TargetRequest $request)
     {
-        //
+
+        $image_path = $request->file('slika')->store('profile-image');
+        return $image_path;
+
+        $target = Target::create([
+            'ime' => $request->ime,
+            'prezime' => $request->prezime,
+            'sifra_objekta' => $request->sifra_objekta,
+            'adresa' => $request->adresa,
+            'mjesto_stanovanja' => $request->mjesto_stanovanja,
+            'ime' => $request->ime,
+        ]);
     }
 
     /**

@@ -80,6 +80,7 @@
                 @endforeach
                 </tbody>
             </table>
+            {{$targets->links()}}
         </div>
     </div>
 @endsection

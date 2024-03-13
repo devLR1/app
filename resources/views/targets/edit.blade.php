@@ -79,7 +79,7 @@
         <form enctype="multipart/form-data" action="/targets" method="POST">
     <div class="tabs mt-5">
         <input type="radio" name="tabs" id="tabone" checked="checked">
-        <label for="tabone">Tab One</label>
+        <label for="tabone">Target</label>
         <div class="tab">
             <div class="row">
                 <div class="col-6">
@@ -120,32 +120,39 @@
                 {{ $message }}
             </span>
                         @enderror
-                        <input style="background: none; border: none" class="form-control" type="file" name="slika">
-                        @error('slika')
-                        <span class="error m-2">
-                {{ $message }}
-            </span>
-                        @enderror
+
 
 
                 </div>
                 <div class="col-3">
-
+                    <img class="my-2 mx-5" src="{{asset($target->slika)}}" alt="">
+                    <input style="background: none; border: none" class="form-control my-2 mx-5" type="file" name="slika">
+                    @error('slika')
+                    <span class="error m-2">
+                {{ $message }}
+            </span>
+                    @enderror
                 </div>
             </div>
         </div>
 
         <input type="radio" name="tabs" id="tabtwo">
-        <label for="tabtwo">Tab Two</label>
+        <label for="tabtwo">...</label>
         <div class="tab">
-            <h1>Tab Two Content</h1>
+            <h1>Tab dva Content</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
         </div>
 
         <input type="radio" name="tabs" id="tabthree">
-        <label for="tabthree">Tab Three</label>
+        <label for="tabthree">...</label>
         <div class="tab">
-            <h1>Tab Three Content</h1>
+            <h1>Tab tri Content</h1>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        </div>
+        <input type="radio" name="tabs" id="tabfour">
+        <label for="tabfour">...</label>
+        <div class="tab">
+            <h1>Tab ceTri Content</h1>
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
         </div>
     </div>

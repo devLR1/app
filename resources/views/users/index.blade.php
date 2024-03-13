@@ -53,10 +53,10 @@
                                 <td>{{ $user->prezime }}</td>
                                 <td>{{ $user->username }}</td>
                                 <td>
-                                    <a href="/users/{{ $user->id }}/edit" class="btn btn-primary btn-sm btn-flat">
+                                    <button data-toggle="modal" data-target="#exampleModal" onclick="vratiUser({{$user->id}}, 'edit')" class="btn btn-primary btn-sm btn-flat">
                                         <i class="fa fa-edit"></i>
                                         DETAILS
-                                    </a>
+                                    </button>
                                 </td>
                                 @if(Auth::user()->is_admin)
                                 <td>
@@ -165,7 +165,7 @@
 
 <script>
 
-    function vratiUser(id){
+    function vratiUser(id, action = null){
         $('.error').remove();
         var forma = document.getElementById('pop_up_forma')
         var ime = document.getElementById('ime')
@@ -175,6 +175,7 @@
         const inputMetod = forma.querySelector('input[name="_method"]');
         inputMetod.value = 'put'
         var dugme = forma.querySelector('button[type="submit"]')
+        dugme.style.display = '';
 
 
         if(id == 'new'){
@@ -237,34 +238,67 @@
 
             // console.log(forma.method)
 
-        } else {
+        } else if(action == 'edit') {
 
             $.ajax({
-            url: 'http://127.0.0.1:8000/get-user-info/' + id,
-            type: 'GET',
-            success: function(response) {
+                url: 'http://127.0.0.1:8000/get-user-info/' + id,
+                type: 'GET',
+                success: function(response) {
 
-                console.log(response)
-                var forma = document.getElementById('pop_up_forma')
-                forma.setAttribute('action', '/users/' + id)
-                var ime = document.getElementById('ime')
-                ime.value = response.ime;
-                userID.value = response.id;
-                var prezime = document.getElementById('prezime')
-                prezime.value = response.prezime
-                var username = document.getElementById('username')
-                var password = document.getElementById('password')
-                var password_confirmation = document.getElementById('password_confirmation')
-                username.value = response.username
+                    console.log(response)
+                    var forma = document.getElementById('pop_up_forma')
+                    forma.setAttribute('action', '/users/' + id)
+                    var ime = document.getElementById('ime')
+                    ime.value = response.ime;
+                    userID.value = response.id;
+                    var prezime = document.getElementById('prezime')
+                    prezime.value = response.prezime
+                    var username = document.getElementById('username')
+                    var password = document.getElementById('password')
+                    var password_confirmation = document.getElementById('password_confirmation')
+                    username.value = response.username
+                    ime.disabled = true;
+                    prezime.disabled = true;
+                    username.disabled = true;
+                    password.disabled = true;
+                    password_confirmation.disabled = true;
+                    dugme.style.display = 'none';
 
 
 
-            },
-            error: function(xhr, status, error) {
+                },
+                error: function(xhr, status, error) {
 
-                console.error(error);
-            }
-        });
+                    console.error(error);
+                }
+            });
+
+        } else {
+            $.ajax({
+                url: 'http://127.0.0.1:8000/get-user-info/' + id,
+                type: 'GET',
+                success: function(response) {
+
+                    console.log(response)
+                    var forma = document.getElementById('pop_up_forma')
+                    forma.setAttribute('action', '/users/' + id)
+                    var ime = document.getElementById('ime')
+                    ime.value = response.ime;
+                    userID.value = response.id;
+                    var prezime = document.getElementById('prezime')
+                    prezime.value = response.prezime
+                    var username = document.getElementById('username')
+                    var password = document.getElementById('password')
+                    var password_confirmation = document.getElementById('password_confirmation')
+                    username.value = response.username
+
+
+                },
+                error: function(xhr, status, error) {
+
+                    console.error(error);
+                }
+            });
 
             var formData = new FormData($('#pop_up_forma')[0]);
             formData.append('_token', '{{ csrf_token() }}')
@@ -313,8 +347,6 @@
                 });
 
             })
-
-
         }
 
 

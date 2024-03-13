@@ -136,7 +136,7 @@ class UserController extends Controller
 
     public function validateForm(Request $request){
 
-    //    return $request;
+//        return $request;
         if($request->filled('password') || $request->formTip == 'create'){
             $validator = Validator::make($request->all(), [
                 'ime' => 'required|min:3|string',
@@ -158,7 +158,14 @@ class UserController extends Controller
             'ime.required' => 'Polje ime je obavezno',
             'ime.min' => 'Polje ime mora sadržavati najmanje :min karaktera',
             'username.unique' => 'Vec postoji nalog sa tim username-om',
-            'password.confirmed' => 'Lozinke se ne poklapaju'
+            'password.confirmed' => 'Lozinke se ne poklapaju',
+            'prezime.required' => 'Polje prezime je obavezno',
+            'prezime.min' => 'Polje prezime mora sadržavati najmanje :min karaktera',
+            'username.min' => 'Polje username mora sadržavati najmanje :min karaktera',
+            'password.required' => 'Polje za lozinku je obavezno',
+            'password.min' => 'Lozinka mora imati najmanje :min karaktera',
+
+
             // Dodajte druge prilagođene poruke o grešci za druga pravila validacije ako je potrebno
         ];
 

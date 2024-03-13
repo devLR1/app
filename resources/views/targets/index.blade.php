@@ -61,9 +61,9 @@
                         </td>
                         @if(Auth::user()->is_admin)
                             <td>
-                                <button type="button" onclick="vratiUser({{$target->id}})" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                <a href="/targets/{{$target->id}}/edit" class="btn btn-primary">
                                     Edit
-                                </button>
+                                </a>
                             </td>
                             <td>
                                 <form action="/users/{{ $target->id }}" method="POST">

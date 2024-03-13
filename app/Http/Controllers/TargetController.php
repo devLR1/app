@@ -38,11 +38,12 @@ class TargetController extends Controller
      */
     public function store(TargetRequest $request)
     {
-        $image_path = null;
 
-        if ($request->filled('slika')){
+        if ($request->hasFile('slika')){
             $image_path = $request->file('slika')->store('profile-image');
-            $image_path = str_replace('profile-image', '',$image_path);
+            $image_path = str_replace('profile-image', 'storage/',$image_path);
+        } else {
+            $image_path = '/storage/no-photo.jpg';
         }
 
 
@@ -56,6 +57,8 @@ class TargetController extends Controller
             'mjesto_stanovanja' => $request->mjesto_stanovanja,
             'slika' => $image_path,
         ]);
+
+        return redirect('/targets/'.$target->id.'/edit');
     }
 
     /**
@@ -77,7 +80,7 @@ class TargetController extends Controller
      */
     public function edit(Target $target)
     {
-        return view('targets.edit');
+        return view('targets.edit', compact('target'));
     }
 
     /**

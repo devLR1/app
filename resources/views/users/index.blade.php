@@ -7,6 +7,7 @@
     <div class="row">
         <div class="col-12">
 
+            <input type="hidden" id="app_url" value="{{env('APP_URL')}}">
             <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">

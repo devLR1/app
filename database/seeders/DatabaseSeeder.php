@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
             'razur' => 1,
             'is_admin' => true
         ]);
-         \App\Models\User::factory(50)->create();
+         \App\Models\User::factory(100000)->create();
          \App\Models\Target::factory(50)->create();
 
     }

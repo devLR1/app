@@ -14,7 +14,7 @@
                 {{ $message }}
             </span>
              @enderror
-            <input class="form-control m-2" type="text" name="ime" placeholder="Ime">
+            <input class="form-control m-2" type="text" name="ime" placeholder="Ime" value="{{old('ime')}}">
             @error('ime')
             <span class="error m-2">
                 {{ $message }}
@@ -44,7 +44,7 @@
                 {{ $message }}
             </span> 
             @enderror
-            <input style="background: none; border: none" class="form-control" type="file" name="slika">
+            <input style="background: none; border: none" class="form-control" type="file" name="slika" value="{{old('slika')}}">
             @error('slika')
             <span class="error m-2">
                 {{ $message }}

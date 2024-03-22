@@ -17,7 +17,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 */
 
 Route::get('/', function () {
-    return redirect('/targets');
+    return redirect('http://127.0.0.1:8080/');
 })->middleware('auth');
 
 Auth::routes();

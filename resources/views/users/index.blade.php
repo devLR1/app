@@ -326,11 +326,10 @@
                     processData: false,
                     success: function(response) {
                         if(response == 'success') {
-                            console.log('odje success')
+
                             forma.submit(); // Ako je uspjeh, pošalji formu
                         } else {
-                            console.log('response')
-                            console.log(response);
+
                             $('.error').remove(); // Ukloni sve postojeće poruke o grešci
 
                             // Prikazi poruke o grešci za svako polje

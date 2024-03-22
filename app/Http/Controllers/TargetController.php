@@ -17,7 +17,7 @@ class TargetController extends Controller
     public function index()
     {
         $targets = Target::query()->paginate(10);
-        return view('targets.index', compact('targets'));
+        return compact('targets');
     }
 
     /**

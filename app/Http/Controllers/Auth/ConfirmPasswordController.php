@@ -26,7 +26,7 @@ class ConfirmPasswordController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/targets';
+    protected $redirectTo = 'http://127.0.0.1:8080/';
 
     /**
      * Create a new controller instance.
